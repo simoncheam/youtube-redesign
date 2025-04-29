@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Base shadcn theme variables */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 72.2% 50.6%;
+    --primary-foreground: 0 85.7% 97.3%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 72.2% 50.6%;
+    --radius: 0.5rem;
+
+    /* YouTube specific theme variables */
+    --youtube-red: 0 100% 50%;
+    --youtube-black: 0 0% 6%;
+    --youtube-card: 0 0% 15%;
+    --youtube-hover: 0 0% 25%;
+    --youtube-border: 0 0% 19%;
+    --youtube-input: 0 0% 7%;
+    --youtube-focus: 214 77% 42%;
+
+    /* YouTube scrollbar variables */
+    --youtube-scrollbar-track: 0 0% 6%;
+    --youtube-scrollbar-thumb: 0 0% 20%;
+    --youtube-scrollbar-hover: 0 0% 33%;
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 7.8%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 7.8%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 72.2% 50.6%;
+    --primary-foreground: 0 85.7% 97.3%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 72.2% 50.6%;
+
+    /* YouTube variables remain the same in dark mode since YouTube is already dark */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Use theme function to reference the CSS variables */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: theme('colors.youtube.scrollbar.track');
+}
+
+::-webkit-scrollbar-thumb {
+  background: theme('colors.youtube.scrollbar.thumb');
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.youtube.scrollbar.hover');
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* New utility class to hide horizontal scrollbar only */
+.hide-x-scroll {
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+}
+.hide-x-scroll::-webkit-scrollbar {
+  height: 0;
+  width: auto;
+}
+
+.fill-youtube-red {
+  fill: #ff0033;
+}
+
+.active-nav-icon {
+  fill: #ff0033;
+  color: #ff0033;
+  stroke-width: 1.5px;
+}
+
+/* Hide browser's default clear button */
+.search-input-no-default-clear::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}

@@ -4,12 +4,15 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/common/theme/theme-provider';
 import { ResponsiveLayout } from '@/components/layouts/responsive-layout';
-
+import { Toaster } from '@/components/ui/sonner';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'YouTube Redesign',
-  description: 'A modern YouTube redesign with Next.js and Tailwind CSS',
+  description: 'A modern YouTube UI redesign built with Next.js and Tailwind CSS',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export const viewport: Viewport = {
@@ -36,6 +39,7 @@ export default function RootLayout({
           disableTransitionOnChange>
           <ResponsiveLayout>{children}</ResponsiveLayout>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

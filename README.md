@@ -1,4 +1,3 @@
-```markdown
 # YouTube Redesign - Next.js Implementation
 
 A YouTube UI redesign built with Next.js, Tailwind CSS, and shadcn/ui components. This project implements the UI from a Figma design concept with a focus on responsive design for both desktop and mobile.
@@ -14,85 +13,93 @@ A YouTube UI redesign built with Next.js, Tailwind CSS, and shadcn/ui components
 
 ### Pages & Routes
 
-```
+```plaintext
 /app
-├── layout.tsx                # Root layout with navigation
+├── layout.tsx                # Root layout (applies navigation)
 ├── page.tsx                  # Home page
-├── explore/                  # Explore page
-│   └── page.tsx
-├── shorts/                   # Shorts section
-│   └── page.tsx
-├── tv-mode/                  # TV mode view
-│   └── page.tsx
-└── watch/                    # Video watch page
+├── explore/
+│   └── page.tsx              # Explore page (Trending, Music, Gaming)
+├── shorts/
+│   └── page.tsx              # Shorts grid page
+├── tv-mode/
+│   └── page.tsx              # TV mode view
+└── watch/
     └── [videoId]/
-        └── page.tsx
+        └── page.tsx          # Video watch page
 ```
 
 ### Key Components
 
-```/components
-├── layouts/                  # Layout components
+The main structure relies on components within `/components`:
 
-│   └── sidebar/              # Sidebar components
-├── notifications/            # Notification components
-├── sections/                 # Content section components
-│   ├── category-section.tsx  # Reusable category sections
+```plaintext
+/components
+├── layouts/                  # Core layout & navigation components
+│   ├── navbar.tsx            # Top navigation bar (critical)
+│   └── sidebar/              # Sidebar navigation (critical)
+│       └── sidebar.tsx
+├── notifications/            # Notification dropdown & items
+├── sections/                 # Reusable content sections for pages
+│   ├── category-section.tsx  # Music/Gaming sections
 │   └── trending-section.tsx  # Trending videos section
-├── ui/                       # shadcn/ui components
-├── video-player/             # Video player components
-└── shared/                   # Shared UI elements
+├── ui/                       # shadcn/ui components library
+├── video-player/             # Video player UI components
+└── shared/                   # Common UI elements (e.g., YoutubeLogo)
 ```
+
+_Note: The `navbar.tsx` and `sidebar.tsx` components within `/layouts/` are essential for site navigation._
 
 ### Data Organization
 
-```
+Static data is organized under `/data` to simulate API responses:
+
+```plaintext
 /data
-├── channels.ts               # Channel information
+├── channels.ts               # Central channel definitions
 ├── types.ts                  # Shared TypeScript interfaces
-├── home/                     # Home page data
-│   ├── missed-videos.ts      # Videos you might have missed
-│   └── suggested-videos.ts   # Suggested videos
-└── explore/                  # Explore page data
-    ├── gaming.ts             # Gaming content
-    ├── music.ts              # Music content
-    └── trending.ts           # Trending videos
+├── home/                     # Data for the home page sections
+│   ├── missed-videos.ts
+│   └── suggested-videos.ts
+└── explore/                  # Data for the explore page sections
+    ├── gaming.ts
+    ├── music.ts
+    └── trending.ts
 ```
 
 ## Features
 
-- Mobile-first responsive design
-- Dark theme UI
-- Video thumbnails and information display
-- Channel information and avatars
-- Navigation with sidebar (desktop) and bottom bar (mobile)
-- Content organized by categories
-- Video player with basic controls
+- Mobile-first responsive design adapting to different screen sizes.
+- Dark theme UI consistent with the design.
+- Displays video thumbnails, titles, channel info, and metadata.
+- Core navigation handled by the sidebar (desktop) and potentially a bottom bar (mobile, if implemented).
+- Content sections organized by category (Trending, Music, Gaming).
+- Basic video player UI structure.
 
 ## Design Implementation
 
-This project closely follows the Figma design with attention to:
+This project aims for a high-fidelity implementation of the Figma design, focusing on:
 
-- Spacing and layout
-- Typography
-- Color scheme
-- Component design
-- Responsive behavior
-- Interactive elements
+- Accurate spacing, layout, and typography.
+- Correct color scheme application.
+- Consistent component styling.
+- Responsive adjustments for different viewports.
+- Basic interactive elements like hover states.
 
 ## Getting Started
 
-1. Clone the repository
+1. Clone the repository.
 2. Install dependencies: `npm install`
 3. Run the development server: `npm run dev`
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Implementation Notes
 
-- This is a frontend-only implementation with static data
-- No actual video playback functionality
-- All styling uses Tailwind CSS utility classes
-- Components are reusable and follow consistent patterns
+- Frontend only; uses static mock data, no real API calls.
+- No actual video playback is implemented.
+- Built primarily with Tailwind CSS utilities and shadcn/ui components.
+- Components are designed to be reusable where possible.
+
 ```
 
 
+```

@@ -1,13 +1,11 @@
 'use client';
 
-import MobileSidebar from '@/components/layouts/sidebar/mobile-sidebar';
-import { MobileBottomNav } from '@/components/navigation/bottom-nav/mobile-bottom-nav';
-import { MobileNavbar } from '@/components/mobile/mobile-navbar';
 import Navbar from '@/components/layouts/navbar/navbar';
-import { MobileSearchFilters } from '@/components/layouts/navbar/MobileSearchFilters';
-import { SearchInput } from '@/components/search/SearchInput';
+import MobileSidebar from '@/components/layouts/sidebar/mobile-sidebar';
 import Sidebar from '@/components/layouts/sidebar/sidebar';
-import { usePathname, useRouter } from 'next/navigation';
+import { MobileNavbar } from '@/components/mobile/mobile-navbar';
+import { MobileBottomNav } from '@/components/navigation/bottom-nav/mobile-bottom-nav';
+import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 
@@ -17,12 +15,8 @@ interface ResponsiveLayoutProps {
 
 export function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   const [isMobile, setIsMobile] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [isMobileSearchExpanded, setIsMobileSearchExpanded] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
 
   const isWatchPage = pathname.startsWith('/watch');
   const isShortsPage = pathname.startsWith('/shorts/*');
@@ -37,32 +31,22 @@ export function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-
-      // Only set sidebar state on initial load, not on route changes
-      if (!pathname) {
-        setSidebarOpen(!(mobile || isWatchPage || isShortsPage));
-      }
     };
 
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
-  }, [isWatchPage, isShortsPage]); // Remove pathname dependency
+  }, [pathname, isWatchPage, isShortsPage]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const mobile = window.innerWidth < 768;
+      setSidebarOpen(!(mobile || isWatchPage || isShortsPage));
+    }
+  }, []);
 
   const toggleSidebar = () => {
-    // For watch/shorts pages, we want different behavior
-    if (isWatchPage || isShortsPage) {
-      if (sidebarOpen) {
-        setSidebarOpen(false);
-      }
-      return;
-    }
-
     setSidebarOpen(!sidebarOpen);
-  };
-
-  const toggleMobileSearch = () => {
-    setIsMobileSearchExpanded(!isMobileSearchExpanded);
   };
 
   return (
@@ -75,32 +59,6 @@ export function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
           <Navbar onMenuClick={() => toggleSidebar()} />
         )}
       </div>
-
-      {/* --- Mobile Search Expanded View --- */}
-      {isMobile && isMobileSearchExpanded && (
-        <div className='md:hidden flex flex-col px-4 pt-2 pb-3 border-b border-youtube-border bg-youtube-black'>
-          <div className='flex items-center w-full mb-2'>
-            <SearchInput
-              className='flex-1'
-              showMicButton={true}
-              defaultValue={searchTerm}
-              onSearch={(term) => {
-                if (term.trim()) {
-                  const filterParam = selectedFilter !== 'all' ? `&filter=${selectedFilter}` : '';
-                  router.push(`/search?q=${encodeURIComponent(term)}${filterParam}`);
-                }
-              }}
-            />
-          </div>
-
-          {/* Category filters */}
-          <MobileSearchFilters
-            selectedFilter={selectedFilter}
-            onFilterChange={setSelectedFilter}
-          />
-        </div>
-      )}
-      {/* --- End Mobile Search Expanded View --- */}
 
       {/* Desktop layout - fixed navbar + sidebar + scrollable content */}
       {!isMobile ? (
@@ -143,7 +101,7 @@ export function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
           </div>
 
           {/* Mobile bottom nav */}
-          <MobileBottomNav onSearchClick={toggleMobileSearch} />
+          <MobileBottomNav />
         </>
       )}
     </div>

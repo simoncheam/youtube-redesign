@@ -1,17 +1,17 @@
 'use client';
 
+import NotificationsDropdown from '@/components/notifications/notifications-dropdown';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Bell, Mic, Search, X } from 'lucide-react';
+import { useClickOutside } from '@/hooks/ui/useClickOutside';
+import { Bell } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { Logo } from '../../common/Logo';
+import { SearchInput } from '../../search/SearchInput';
 import { CreateButton } from './buttons/CreateButton';
 import { MenuButton } from './buttons/MenuButton';
 import { SettingsButton } from './buttons/SettingsButton';
 import { UserProfile } from './UserProfile';
-import { SearchInput } from '../../search/SearchInput';
-import NotificationsDropdown from '@/components/notifications/notifications-dropdown';
 
 interface NavbarProps {
   onMenuClick: () => void;
@@ -26,6 +26,32 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
 
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const notificationsBtnRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const hasShownPromo = sessionStorage.getItem('promoShown');
+
+    if (!hasShownPromo) {
+      const style2 = [
+        'background: linear-gradient(#E36C4E, #19272f)',
+        'border: 1px solid #E36C4E',
+        'color: white',
+        'padding: 1px 5px',
+        'display: block',
+        'line-height: 40px',
+        'text-align: center',
+        'font-weight: bold',
+        'font-size: large',
+      ].join(';');
+      console.log(
+        "%cIf you like what you see...I'd love to help you to take your software, team, or company to the next level.",
+        style2
+      );
+      console.log("%cLet's chat >>> simon@simoncheam.dev", style2);
+
+      sessionStorage.setItem('promoShown', 'true');
+    }
+  }, []);
 
   useEffect(() => {
     if (isSearchExpanded && searchInputRef.current) {
@@ -33,25 +59,10 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
     }
   }, [isSearchExpanded]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        isNotificationsOpen &&
-        notificationsBtnRef.current &&
-        !notificationsBtnRef.current.contains(event.target as Node)
-      ) {
-        setIsNotificationsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isNotificationsOpen]);
+  useClickOutside(dropdownRef, () => setIsNotificationsOpen(false), notificationsBtnRef);
 
   const toggleNotifications = () => {
-    setIsNotificationsOpen(!isNotificationsOpen);
+    setIsNotificationsOpen((prev) => !prev);
   };
 
   const handleSearch = (term: string) => {
@@ -99,6 +110,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
               <span className='absolute top-1 right-1 w-2 h-2 bg-youtube-red rounded-full'></span>
             </Button>
             <NotificationsDropdown
+              ref={dropdownRef}
               isOpen={isNotificationsOpen}
               onClose={() => setIsNotificationsOpen(false)}
             />

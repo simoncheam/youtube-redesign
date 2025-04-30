@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { videos } from '@/data/videos';
 
 import { VideoPlayer } from '@/components/tv-mode/VideoPlayer';
@@ -17,30 +17,28 @@ export default function TVModePage() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [progress, setProgress] = useState(33);
-  const [controlsTimeout, setControlsTimeout] = useState<NodeJS.Timeout | null>(null);
+  const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Handle mouse movement to show controls
   const handleMouseMove = () => {
     setShowControls(true);
 
-    if (controlsTimeout) {
-      clearTimeout(controlsTimeout);
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current);
     }
 
-    const timeout = setTimeout(() => {
+    controlsTimeoutRef.current = setTimeout(() => {
       setShowControls(false);
     }, 3000);
-
-    setControlsTimeout(timeout);
   };
 
   useEffect(() => {
     return () => {
-      if (controlsTimeout) {
-        clearTimeout(controlsTimeout);
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
       }
     };
-  }, [controlsTimeout]);
+  }, []);
 
   // Get duration from video metadata
   const duration = youtubeRedesignVideo.metadata?.duration || '12:07';

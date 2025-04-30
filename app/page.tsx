@@ -21,17 +21,17 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
 
   // Only run on client-side
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
+  // useEffect(() => {
+  //   if (typeof window === 'undefined') return;
 
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+  //   const checkMobile = () => {
+  //     setIsMobile(window.innerWidth < 768);
+  //   };
 
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  //   checkMobile();
+  //   window.addEventListener('resize', checkMobile);
+  //   return () => window.removeEventListener('resize', checkMobile);
+  // }, []);
 
   if (isMobile) {
     return (

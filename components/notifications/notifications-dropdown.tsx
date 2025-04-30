@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Clock, Settings, MoreVertical, Forward } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Clock, Forward, MoreVertical, Settings } from 'lucide-react';
+import Image from 'next/image';
+import { forwardRef } from 'react';
 
 interface NotificationProps {
   id: string;
@@ -53,17 +53,20 @@ interface NotificationsDropdownProps {
   onClose: () => void;
 }
 
-export default function NotificationsDropdown({ isOpen, onClose }: NotificationsDropdownProps) {
+const NotificationsDropdown = forwardRef<HTMLDivElement, NotificationsDropdownProps>(({ isOpen, onClose }, ref) => {
   if (!isOpen) return null;
 
   return (
     <>
       <div
+        ref={ref}
         className='fixed inset-0 z-40'
         onClick={onClose}
       />
 
-      <div className='absolute top-full right-0 mt-1 w-80 sm:w-96 max-h-[calc(100vh-70px)] overflow-y-auto overflow-x-hidden bg-youtube-black border border-youtube-border rounded-lg shadow-lg z-50'>
+      <div
+        ref={ref}
+        className='absolute top-full right-0 mt-1 w-80 sm:w-96 max-h-[calc(100vh-70px)] overflow-y-auto overflow-x-hidden bg-youtube-black border border-youtube-border rounded-lg shadow-lg z-50'>
         <div className='sticky top-0 bg-youtube-black border-b border-youtube-border p-4 flex items-center justify-between z-20'>
           <h2 className='font-medium'>Notifications</h2>
           <div className='flex items-center gap-2'>
@@ -95,7 +98,11 @@ export default function NotificationsDropdown({ isOpen, onClose }: Notifications
       </div>
     </>
   );
-}
+});
+
+NotificationsDropdown.displayName = 'NotificationsDropdown';
+
+export default NotificationsDropdown;
 
 function NotificationItem({ notification }: { notification: NotificationProps }) {
   const isShare = notification.type === 'share';

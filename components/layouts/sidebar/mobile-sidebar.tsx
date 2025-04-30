@@ -141,6 +141,7 @@ export default function MobileSidebar({ onClose }: MobileSidebarProps) {
     }));
   };
 
+  // TODO: abstract links
   const mainLinks = [
     { icon: <Home className='h-5 w-5' />, label: 'Home', href: '/', active: pathname === '/' },
     { icon: <Compass className='h-5 w-5' />, label: 'Explore', href: '/explore', active: pathname === '/explore' },

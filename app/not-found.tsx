@@ -8,13 +8,19 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Home } from 'lucide-react';
 
-export default function NotFound() {
+interface NotFoundProps {
+  showToast?: boolean;
+}
+
+export default function NotFound({ showToast = true }: NotFoundProps) {
   useEffect(() => {
-    toast.error('Page not found', {
-      description: 'The page you requested could not be found.',
-      duration: 5000,
-    });
-  }, []);
+    if (showToast) {
+      toast.error('Page not found', {
+        description: 'The page you requested could not be found.',
+        duration: 5000,
+      });
+    }
+  }, [showToast]);
 
   return (
     <main className='flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] p-6'>

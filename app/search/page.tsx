@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { SearchIcon, X, MoreVertical, Filter } from 'lucide-react';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { videos } from '@/data/videos';
 import { missedVideos } from '@/data/home/missed-videos';
 
@@ -15,24 +15,32 @@ export default function SearchPage() {
   const searchParams = useSearchParams();
   const queryParam = searchParams.get('q') || '';
   const [searchQuery, setSearchQuery] = useState(queryParam || 'how to make gingerbread cookies');
+  const [activeFilter, setActiveFilter] = useState('all');
 
   // Detect mobile on client side
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    
+
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Filter videos based on search query
-  const searchResults = [...videos, ...missedVideos]
-    .slice(0, 10) // Limiting results for performance
-    .map((video) => ({
+  // Filter videos based on search query AND activeFilter
+  const searchResults = useMemo(() => {
+    const allResults = [...videos, ...missedVideos].slice(0, 10); // Limit results
+
+    if (activeFilter === 'videos') {
+      return allResults; // Placeholder: Implement actual filtering
+    } else if (activeFilter === 'shorts') {
+      return allResults; // Placeholder: Implement actual filtering
+    }
+    // Default 'all'
+    return allResults.map((video) => ({
       id: video.id,
       title: video.title,
       thumbnail: video.thumbnail,
@@ -42,6 +50,7 @@ export default function SearchPage() {
       time: video.timestamp,
       duration: video.metadata?.duration || '12:07',
     }));
+  }, [searchQuery, activeFilter]);
 
   // Mobile view
   if (isMobile) {
@@ -91,7 +100,10 @@ export default function SearchPage() {
         </div>
 
         <div className='p-2 bg-youtube-black text-white'>
-          <Tabs defaultValue='all'>
+          <Tabs
+            defaultValue='all'
+            onValueChange={setActiveFilter}
+            value={activeFilter}>
             <div className='flex items-center gap-2 overflow-x-auto no-scrollbar'>
               <Button
                 variant='outline'
@@ -122,60 +134,61 @@ export default function SearchPage() {
                 </TabsTrigger>
               </TabsList>
             </div>
-          </Tabs>
-
-          <div className='mt-4 space-y-4'>
-            {searchResults.map((result) => (
-              <div
-                key={result.id}
-                className='space-y-2'>
-                <Link
-                  href={`/watch/${result.id}`}
-                  className='block'>
-                  <div className='aspect-video relative rounded-lg overflow-hidden'>
-                    <Image
-                      src={result.thumbnail || '/placeholder.svg'}
-                      alt={result.title}
-                      fill
-                      className='object-cover'
-                    />
-                    <div className='absolute bottom-2 right-2 bg-black/80 text-white text-xs px-1 rounded'>
-                      {result.duration}
-                    </div>
-                  </div>
-                </Link>
-                <div className='flex gap-3'>
+            <TabsContent
+              value={activeFilter}
+              className='mt-4 space-y-4'>
+              {searchResults.map((result) => (
+                <div
+                  key={result.id}
+                  className='space-y-2'>
                   <Link
-                    href={`/channel/${result.channel.toLowerCase().replace(/\s+/g, '-')}`}
-                    className='flex-shrink-0'>
-                    <Image
-                      src={result.channelImage || '/placeholder.svg'}
-                      alt={result.channel}
-                      width={36}
-                      height={36}
-                      className='rounded-full'
-                    />
+                    href={`/watch/${result.id}`}
+                    className='block'>
+                    <div className='aspect-video relative rounded-lg overflow-hidden'>
+                      <Image
+                        src={result.thumbnail || '/placeholder.svg'}
+                        alt={result.title}
+                        fill
+                        className='object-cover'
+                      />
+                      <div className='absolute bottom-2 right-2 bg-black/80 text-white text-xs px-1 rounded'>
+                        {result.duration}
+                      </div>
+                    </div>
                   </Link>
-                  <div className='flex-1 min-w-0'>
+                  <div className='flex gap-3'>
                     <Link
-                      href={`/watch/${result.id}`}
-                      className='block'>
-                      <h3 className='font-medium text-sm line-clamp-2'>{result.title}</h3>
-                      <p className='text-xs text-gray-400 mt-1'>
-                        {result.channel} • {result.views} • {result.time}
-                      </p>
+                      href={`/channel/${result.channel.toLowerCase().replace(/\s+/g, '-')}`}
+                      className='flex-shrink-0'>
+                      <Image
+                        src={result.channelImage || '/placeholder.svg'}
+                        alt={result.channel}
+                        width={36}
+                        height={36}
+                        className='rounded-full'
+                      />
                     </Link>
+                    <div className='flex-1 min-w-0'>
+                      <Link
+                        href={`/watch/${result.id}`}
+                        className='block'>
+                        <h3 className='font-medium text-sm line-clamp-2'>{result.title}</h3>
+                        <p className='text-xs text-gray-400 mt-1'>
+                          {result.channel} • {result.views} • {result.time}
+                        </p>
+                      </Link>
+                    </div>
+                    <Button
+                      variant='ghost'
+                      size='icon'
+                      className='h-8 w-8 flex-shrink-0 text-white'>
+                      <MoreVertical className='h-5 w-5' />
+                    </Button>
                   </div>
-                  <Button
-                    variant='ghost'
-                    size='icon'
-                    className='h-8 w-8 flex-shrink-0 text-white'>
-                    <MoreVertical className='h-5 w-5' />
-                  </Button>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </TabsContent>
+          </Tabs>
         </div>
       </>
     );
@@ -183,13 +196,17 @@ export default function SearchPage() {
 
   // Desktop view
   return (
-    <div className="container mx-auto px-4 py-4 md:py-6">
-      <h1 className="text-xl font-medium mb-6">Search Results for "{searchQuery}"</h1>
-      
-      <div className="grid grid-cols-1 gap-6">
+    <div className='container mx-auto px-4 py-4 md:py-6'>
+      <h1 className='text-xl font-medium mb-6'>Search Results for "{searchQuery}"</h1>
+
+      <div className='grid grid-cols-1 gap-6'>
         {searchResults.map((result) => (
-          <div key={result.id} className="flex gap-4 group">
-            <Link href={`/watch/${result.id}`} className="relative w-64 flex-shrink-0">
+          <div
+            key={result.id}
+            className='flex gap-4 group'>
+            <Link
+              href={`/watch/${result.id}`}
+              className='relative w-64 flex-shrink-0'>
               <div className='aspect-video relative rounded-lg overflow-hidden'>
                 <Image
                   src={result.thumbnail || '/placeholder.svg'}
@@ -202,25 +219,25 @@ export default function SearchPage() {
                 </div>
               </div>
             </Link>
-            
-            <div className="flex-1">
+
+            <div className='flex-1'>
               <Link href={`/watch/${result.id}`}>
-                <h2 className="font-medium text-lg mb-2 group-hover:text-blue-500">{result.title}</h2>
+                <h2 className='font-medium text-lg mb-2 group-hover:text-blue-500'>{result.title}</h2>
               </Link>
-              <p className="text-sm text-gray-400">
+              <p className='text-sm text-gray-400'>
                 {result.views} views • {result.time}
               </p>
-              <div className="flex items-center mt-2">
+              <div className='flex items-center mt-2'>
                 <Link href={`/channel/${result.channel.toLowerCase().replace(/\s+/g, '-')}`}>
-                  <div className="flex items-center">
+                  <div className='flex items-center'>
                     <Image
                       src={result.channelImage || '/placeholder.svg'}
                       alt={result.channel}
                       width={24}
                       height={24}
-                      className="rounded-full mr-2"
+                      className='rounded-full mr-2'
                     />
-                    <span className="text-sm text-gray-300">{result.channel}</span>
+                    <span className='text-sm text-gray-300'>{result.channel}</span>
                   </div>
                 </Link>
               </div>

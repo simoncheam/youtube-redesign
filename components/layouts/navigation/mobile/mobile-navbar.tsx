@@ -1,10 +1,10 @@
 'use client';
 
-import { CastButton } from '@/components/layouts/navbar/buttons/CastButton';
-import { MenuButton } from '@/components/layouts/navbar/buttons/MenuButton';
-import { NotificationsButton } from '@/components/layouts/navbar/buttons/NotificationsButton';
-import { UserProfile } from '@/components/layouts/navbar/UserProfile';
-import { Logo } from '../common/Logo';
+import { CastButton } from '@/components/layouts/navigation/navbar/buttons/CastButton';
+import { MenuButton } from '@/components/layouts/navigation/navbar/buttons/MenuButton';
+import { NotificationsButton } from '@/components/layouts/navigation/navbar/buttons/NotificationsButton';
+import { UserProfile } from '@/components/layouts/navigation/navbar/UserProfile';
+import { Logo } from '../../../common/Logo';
 
 interface MobileNavbarProps {
   onMenuClick: () => void;

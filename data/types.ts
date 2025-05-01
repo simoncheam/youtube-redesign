@@ -13,8 +13,8 @@ export interface BaseVideo {
   id: string
   title: string
   thumbnail?: string
-  views?: string
-  timestamp?: string
+  views: string
+  timestamp: string
   duration?: string
   likes?: string
   dislikes?: string

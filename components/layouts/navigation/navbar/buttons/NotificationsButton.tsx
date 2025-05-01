@@ -1,15 +1,15 @@
-import { Settings } from 'lucide-react';
-import { Button } from '../../../ui/button';
+import { Bell } from 'lucide-react';
+import { Button } from '../../../../ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
-interface SettingsButtonProps {
+interface NotificationsButtonProps {
   onClick?: () => void;
   className?: string;
 }
 
-export function SettingsButton({ onClick, className }: SettingsButtonProps) {
-  const label = 'Settings';
+export function NotificationsButton({ onClick, className }: NotificationsButtonProps) {
+  const label = 'Notifications';
 
   return (
     <TooltipProvider delayDuration={100}>
@@ -21,7 +21,7 @@ export function SettingsButton({ onClick, className }: SettingsButtonProps) {
             className={cn('text-white', className)}
             onClick={onClick}
             aria-label={label}>
-            <Settings className='h-5 w-5' />
+            <Bell className='h-5 w-5' />
             <span className='sr-only'>{label}</span>
           </Button>
         </TooltipTrigger>

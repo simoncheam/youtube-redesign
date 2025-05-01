@@ -1,24 +1,20 @@
 'use client';
 
-import NotificationsDropdown from '@/components/notifications/notifications-dropdown';
-import { Button } from '@/components/ui/button';
+import { NotificationsButton } from '@/components/notifications/NotificationsButton';
 import { useClickOutside } from '@/hooks/ui/useClickOutside';
-import { Bell } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { Logo } from '../../common/Logo';
-import { SearchInput } from '../../search/SearchInput';
+import { Logo } from '../../../common/Logo';
+import { SearchInput } from '../../../search/SearchInput';
 import { CreateButton } from './buttons/CreateButton';
 import { MenuButton } from './buttons/MenuButton';
 import { SettingsButton } from './buttons/SettingsButton';
 import { UserProfile } from './UserProfile';
-
 interface NavbarProps {
   onMenuClick: () => void;
 }
 
 export default function Navbar({ onMenuClick }: NavbarProps) {
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -98,23 +94,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
 
         <div className='flex items-center ml-auto gap-1 md:gap-2'>
           <CreateButton className='hidden md:flex' />
-          <div className='relative'>
-            <Button
-              ref={notificationsBtnRef}
-              variant='ghost'
-              size='icon'
-              className='text-white'
-              onClick={toggleNotifications}>
-              <Bell className='h-5 w-5' />
-              <span className='sr-only'>Notifications</span>
-              <span className='absolute top-1 right-1 w-2 h-2 bg-youtube-red rounded-full'></span>
-            </Button>
-            <NotificationsDropdown
-              ref={dropdownRef}
-              isOpen={isNotificationsOpen}
-              onClose={() => setIsNotificationsOpen(false)}
-            />
-          </div>
+          <NotificationsButton />
           <SettingsButton className='hidden md:flex' />
           <UserProfile />
         </div>

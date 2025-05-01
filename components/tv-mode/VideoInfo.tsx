@@ -17,8 +17,6 @@ interface VideoInfoProps {
 }
 
 export function VideoInfo({ video, onClose }: VideoInfoProps) {
-  console.log('Using channel avatar:', video.channel?.avatar);
-
   return (
     <div className='absolute top-0 left-0 right-0 p-2 sm:p-4 bg-gradient-to-b from-black/80 to-transparent'>
       <div className='flex items-center gap-2 sm:gap-3'>

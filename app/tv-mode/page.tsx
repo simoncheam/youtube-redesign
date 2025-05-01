@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { videos } from '@/data/videos';
+import { toast } from 'sonner';
 
 import { VideoPlayer } from '@/components/tv-mode/VideoPlayer';
 import { ProgressBar } from '@/components/tv-mode/ProgressBar';
@@ -91,8 +92,8 @@ export default function TVModePage() {
       )}
 
       <NavigationControls
-        onPrevious={() => console.log('Previous video')}
-        onNext={() => console.log('Next video')}
+        onPrevious={() => toast.error("Previous video feature isn't available in the demo", { duration: 5000 })}
+        onNext={() => toast.error("Next video feature isn't available in the demo", { duration: 5000 })}
       />
     </div>
   );

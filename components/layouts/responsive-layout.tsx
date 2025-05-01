@@ -1,106 +1,102 @@
+/**
+ * ResponsiveLayout - Main layout component that adapts UI based on screen size and route
+ *
+ * This component handles:
+ * - Conditional rendering of navigation components (mobile vs desktop)
+ * - Sidebar state management (open/closed)
+ * - Special layout behavior for specific pages (watch, shorts)
+ * - Correct content positioning based on sidebar state
+ */
 'use client';
 
-import Navbar from '@/components/layouts/navbar/navbar';
-import MobileSidebar from '@/components/layouts/sidebar/mobile-sidebar';
-import Sidebar from '@/components/layouts/sidebar/sidebar';
-import { MobileNavbar } from '@/components/mobile/mobile-navbar';
-import { MobileBottomNav } from '@/components/navigation/bottom-nav/mobile-bottom-nav';
+import { useMediaQuery } from '@/hooks/ui/useMediaQuery';
 import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+
+// Use consistent import paths with @/ prefix
+import Navbar from '@/components/layouts/navigation/navbar/navbar';
+import Sidebar from '@/components/layouts/navigation/sidebar/sidebar';
+import { MobileBottomNav } from './navigation/mobile/mobile-bottom-nav';
+import { MobileNavbar } from './navigation/mobile/mobile-navbar';
+
+// Constants for improved maintainability
+const MOBILE_BREAKPOINT = '(max-width: 767px)';
+const RESERVED_ROUTES = {
+  WATCH: '/watch',
+  SHORTS: '/shorts/',
+};
 
 interface ResponsiveLayoutProps {
   children: ReactNode;
 }
 
 export function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
-  const [isMobile, setIsMobile] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const isWatchPage = pathname.startsWith('/watch');
-  const isShortsPage = pathname.startsWith('/shorts/*');
-  const showSidebar = !isWatchPage && !isShortsPage;
+  // Compute layout-related states in one place
+  const layoutState = useMemo(() => {
+    const isWatchPage = pathname.startsWith(RESERVED_ROUTES.WATCH);
+    const isShortsPage = pathname.startsWith(RESERVED_ROUTES.SHORTS);
+    const showSidebar = !isWatchPage && !isShortsPage;
 
-  const renderSidebar = !isShortsPage;
-  const isMiniSidebarForced = !isMobile && isWatchPage;
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const checkMobile = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
+    return {
+      isWatchPage,
+      isShortsPage,
+      showSidebar,
     };
+  }, [pathname]);
 
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, [pathname, isWatchPage, isShortsPage]);
-
+  // Initialize sidebar state
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const mobile = window.innerWidth < 768;
-      setSidebarOpen(!(mobile || isWatchPage || isShortsPage));
-    }
-  }, []);
+    const shouldOpenSidebar = !isMobile && layoutState.showSidebar;
+    setSidebarOpen(shouldOpenSidebar);
+  }, [isMobile, layoutState.showSidebar]);
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
+  // Handler functions
+  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
+  const openSidebar = () => setSidebarOpen(true);
+  const closeSidebar = () => setSidebarOpen(false);
+
+  // Calculate main content class based on sidebar state
+  const mainContentClass = !layoutState.showSidebar ? '' : sidebarOpen ? 'ml-60' : 'ml-16';
 
   return (
     <div className='flex flex-col min-h-screen bg-youtube-black text-white overflow-hidden'>
-      {/* Unified navigation approach - Always fixed at top */}
-      <div className={`${!isMobile ? 'fixed top-0 left-0 right-0 z-50' : ''}`}>
-        {isMobile ? (
-          <MobileNavbar onMenuClick={() => toggleSidebar()} />
-        ) : (
-          <Navbar onMenuClick={() => toggleSidebar()} />
-        )}
+      {/* Navbar section */}
+      <div className={!isMobile ? 'fixed top-0 left-0 right-0 z-50' : ''}>
+        {isMobile ? <MobileNavbar onMenuClick={openSidebar} /> : <Navbar onMenuClick={toggleSidebar} />}
       </div>
 
-      {/* Desktop layout - fixed navbar + sidebar + scrollable content */}
-      {!isMobile ? (
+      {/* Desktop layout with conditionally visible sidebar */}
+      {!isMobile && (
         <div className='flex flex-1 mt-14'>
-          {' '}
-          {/* Add top margin to account for fixed navbar */}
-          {showSidebar && (
+          {layoutState.showSidebar && (
             <div className='fixed top-14 bottom-0 left-0 z-40'>
               <Sidebar
                 isOpen={sidebarOpen}
+                isMobile={false}
                 onOpenChange={setSidebarOpen}
-                isMobile={isMobile}
               />
             </div>
           )}
-          {/* Desktop main content - Push content to accommodate sidebar */}
-          <main className={`flex-1 overflow-y-auto overflow-x-hidden ${sidebarOpen ? 'ml-60' : 'ml-16'} w-full`}>
-            {children}
-          </main>
+          <main className={`flex-1 overflow-y-auto overflow-x-hidden ${mainContentClass} w-full`}>{children}</main>
         </div>
-      ) : (
+      )}
+
+      {isMobile && (
         <>
-          {/* Mobile layout */}
-          <div className='flex flex-1 overflow-hidden'>
-            {/* Mobile Sidebar with Custom implementation for visibility */}
-            {showSidebar && sidebarOpen && (
-              <div
-                className='fixed inset-0 z-[100] bg-black/50'
-                onClick={() => setSidebarOpen(false)}>
-                <div
-                  className='fixed left-0 top-0 bottom-0 w-64 bg-youtube-black z-[101]'
-                  onClick={(e) => e.stopPropagation()}>
-                  <MobileSidebar onClose={() => setSidebarOpen(false)} />
-                </div>
-              </div>
-            )}
+          {layoutState.showSidebar && (
+            <Sidebar
+              isOpen={sidebarOpen}
+              isMobile={true}
+              onOpenChange={setSidebarOpen}
+            />
+          )}
 
-            {/* Mobile main content area */}
-            <main className='fixed inset-x-0 top-14 bottom-16 z-10 overflow-y-auto overflow-x-hidden'>{children}</main>
-          </div>
-
-          {/* Mobile bottom nav */}
+          <main className='fixed inset-x-0 top-14 bottom-16 z-10 overflow-y-auto overflow-x-hidden'>{children}</main>
           <MobileBottomNav />
         </>
       )}

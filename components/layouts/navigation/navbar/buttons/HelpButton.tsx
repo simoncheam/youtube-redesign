@@ -1,15 +1,15 @@
-import { Bell } from 'lucide-react';
-import { Button } from '../../../ui/button';
+import { HelpCircle } from 'lucide-react';
+import { Button } from '../../../../ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
-interface NotificationsButtonProps {
+interface HelpButtonProps {
   onClick?: () => void;
   className?: string;
 }
 
-export function NotificationsButton({ onClick, className }: NotificationsButtonProps) {
-  const label = 'Notifications';
+export function HelpButton({ onClick, className }: HelpButtonProps) {
+  const label = 'Help';
 
   return (
     <TooltipProvider delayDuration={100}>
@@ -21,7 +21,7 @@ export function NotificationsButton({ onClick, className }: NotificationsButtonP
             className={cn('text-white', className)}
             onClick={onClick}
             aria-label={label}>
-            <Bell className='h-5 w-5' />
+            <HelpCircle className='h-5 w-5' />
             <span className='sr-only'>{label}</span>
           </Button>
         </TooltipTrigger>

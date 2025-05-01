@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { User } from 'lucide-react';
-import { Button } from '../../ui/button';
-import { Avatar, AvatarImage, AvatarFallback } from '../../ui/avatar';
+import { Button } from '../../../ui/button';
+import { Avatar, AvatarImage, AvatarFallback } from '../../../ui/avatar';
 
 interface UserProfileProps {
   className?: string;

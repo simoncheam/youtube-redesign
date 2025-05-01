@@ -1,5 +1,5 @@
 import { Search } from 'lucide-react';
-import { Button } from '../../ui/button';
+import { Button } from '../../../ui/button';
 
 export function MobileSearchButton() {
   return (

@@ -1,5 +1,5 @@
-import NotFound from '../not-found';
+import { notFound } from 'next/navigation';
 
 export default function LikedVideos() {
-  return <NotFound showToast={false} />;
+  return notFound();
 }

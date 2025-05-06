@@ -1,7 +1,7 @@
 // TODO: Implement watch later page - create placeholder for now
 
-import NotFound from '../not-found';
+import { notFound } from 'next/navigation';
 
 export default function WatchLater() {
-  return <NotFound showToast={false} />;
+  return notFound();
 }

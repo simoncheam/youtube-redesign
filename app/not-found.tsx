@@ -12,7 +12,10 @@ interface NotFoundProps {
   message?: string;
 }
 
-export default function NotFound({ showToast = true, message }: NotFoundProps) {
+export default function NotFound({
+  showToast = true,
+  message = 'This page is not available in the demo version or does not exist yet.',
+}: NotFoundProps) {
   useEffect(() => {
     if (showToast) {
       toast.error('Page not found', {

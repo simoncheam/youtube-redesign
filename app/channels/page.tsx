@@ -1,7 +1,7 @@
 // TODO: Implement channels page - create placeholder for now
 
-import NotFound from '@/app/not-found';
+import { notFound } from 'next/navigation';
 
 export default function Channels() {
-  return <NotFound showToast={false} />;
+  return notFound();
 }

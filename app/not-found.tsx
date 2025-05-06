@@ -9,9 +9,10 @@ import { Home } from 'lucide-react';
 
 interface NotFoundProps {
   showToast?: boolean;
+  message?: string;
 }
 
-export default function NotFound({ showToast = true }: NotFoundProps) {
+export default function NotFound({ showToast = true, message }: NotFoundProps) {
   useEffect(() => {
     if (showToast) {
       toast.error('Page not found', {
@@ -35,7 +36,7 @@ export default function NotFound({ showToast = true }: NotFoundProps) {
           />
         </div>
 
-        <p className='text-xl text-muted-foreground'>This page has been put in jail or doesn't exist yet.</p>
+        <p className='text-xl text-muted-foreground'>{message}</p>
 
         <Button
           asChild

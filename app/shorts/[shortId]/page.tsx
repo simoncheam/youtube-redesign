@@ -164,6 +164,9 @@ export default function ShortPage() {
                 <AvatarImage
                   src={currentShort.channelAvatar || '/placeholder.svg'}
                   alt={currentShort.channel}
+                  onError={(e) => {
+                    e.currentTarget.src = '/images/placeholder-avatar.png';
+                  }}
                 />
                 <AvatarFallback>{currentShort.channel?.[0] || 'U'}</AvatarFallback>
               </Avatar>
@@ -218,6 +221,9 @@ export default function ShortPage() {
                       <AvatarImage
                         src={video.channelAvatar || '/placeholder.svg'}
                         alt={video.channel}
+                        onError={(e) => {
+                          e.currentTarget.src = '/images/placeholder-avatar.png';
+                        }}
                       />
                       <AvatarFallback>{video.channel?.[0] || 'U'}</AvatarFallback>
                     </Avatar>

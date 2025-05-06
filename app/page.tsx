@@ -1,4 +1,4 @@
-import CategoryTabs from '@/components/navigation/category-tabs';
+import CategoryTabs from '@/components/layouts/shared/category-tabs';
 import MissedVideosSection from '@/components/sections/missed-videos-section';
 import SuggestionsSection from '@/components/sections/suggestions-section';
 import HomeShortsSection from '@/components/sections/home-shorts-section';

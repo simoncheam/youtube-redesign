@@ -23,7 +23,7 @@ const grayCatVideo = {
   thumbnail: "/images/shorts/gray-cat-milk-thumbnail.webp",
   channel: "DailyDoseOfInternetCats",
   channelId: "channel19",
-  channelAvatar: "/images/channels/daily-dose-cats-avatar.png",
+  channelAvatar: "/images/channels/daily-dose-avatar.png",
   subscribers: "45K",
   views: "10M views",
   timestamp: "3 weeks ago",

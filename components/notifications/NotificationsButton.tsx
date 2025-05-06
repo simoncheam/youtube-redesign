@@ -18,7 +18,7 @@ export function NotificationsButton() {
         <Button
           variant='ghost'
           size='icon'
-          className='text-white'>
+          className='text-white relative'>
           <Bell className='h-5 w-5' />
           <span className='sr-only'>Notifications</span>
           <span className='absolute top-1 right-1 w-2 h-2 bg-youtube-red rounded-full'></span>

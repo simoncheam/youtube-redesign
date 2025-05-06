@@ -1,14 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Search, Grid, List, MoreVertical, Filter, Calendar, Clock } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import { Calendar, Filter, Grid, List, MoreVertical, Search } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
 
 export default function HistoryPage() {
   // States

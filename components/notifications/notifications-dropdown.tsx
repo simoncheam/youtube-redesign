@@ -1,10 +1,7 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { Clock, Forward, MoreVertical, Settings } from 'lucide-react';
-import Image from 'next/image';
+import { Clock, Settings } from 'lucide-react';
 import { forwardRef } from 'react';
 import { NotificationItem } from './NotificationItem';
 

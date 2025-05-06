@@ -2,9 +2,9 @@
 
 import { CastButton } from '@/components/layouts/navigation/navbar/buttons/CastButton';
 import { MenuButton } from '@/components/layouts/navigation/navbar/buttons/MenuButton';
-import { NotificationsButton } from '@/components/layouts/navigation/navbar/buttons/NotificationsButton';
 import { UserProfile } from '@/components/layouts/navigation/navbar/UserProfile';
 import { Logo } from '../../../common/Logo';
+import { NotificationsButton } from '@/components/notifications/NotificationsButton';
 
 interface MobileNavbarProps {
   onMenuClick: () => void;

@@ -1,6 +1,9 @@
 # YouTube Redesign - Next.js Implementation
 
-A YouTube UI redesign built with Next.js, Tailwind CSS, and shadcn/ui components. This project implements the UI from a Figma design concept with a focus on responsive design for both desktop and mobile.
+A modern YouTube UI redesign built with Next.js, Tailwind CSS, and shadcn/ui components. This project implements the UI from a Figma design concept with a focus on responsive design for both desktop and mobile views.
+
+This implementation is based on the design concept available at:
+[YouTube Redesign Figma Community File](https://www.figma.com/community/file/1450380484645543336)
 
 ## Tech Stack
 
@@ -8,12 +11,11 @@ A YouTube UI redesign built with Next.js, Tailwind CSS, and shadcn/ui components
 - Tailwind CSS
 - shadcn/ui Components
 - Lucide Icons
+- TypeScript
 
-## Project Structure
+## 📁 Project Structure
 
-### Pages & Routes
-
-```plaintext
+```
 /app
 ├── layout.tsx                # Root layout (applies navigation)
 ├── page.tsx                  # Home page

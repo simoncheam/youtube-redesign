@@ -153,7 +153,7 @@ Simon Cheam - [LinkedIn][linkedin-url]
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[product-screenshot]: /path/to/youtube-redesign-thumbnail.png
+[product-screenshot]: /public/images/youtube-redesign-thumbnail.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
